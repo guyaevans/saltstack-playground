@@ -1,0 +1,28 @@
+ARG TZ='Europe/Berlin'
+ARG DEBIAN_MAJOR=11
+
+FROM debian:${DEBIAN_MAJOR}-slim
+RUN apt update && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt dist-upgrade -y && \
+    apt install -y --no-install-recommends \
+    dialog \
+    apt-utils \
+    sudo \
+    curl \
+    tzdata \
+    iproute2 \
+    python3 \
+    openssh-server \
+    ca-certificates \
+    && apt autoclean \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV TZ=${TZ}
+RUN mkdir /etc/apt/keyrings \
+    && . /etc/os-release \
+    && ARCH=$(uname -m) \
+    && if [ "${ARCH}" = "amd64" ]; then ARCH="amd64"; else ARCH="arm64"; fi \
+    && curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/${ID}/${VERSION_ID}/${ARCH}/SALT-PROJECT-GPG-PUBKEY-2023.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=${ARCH}] https://repo.saltproject.io/salt/py3/${ID}/${VERSION_ID}/${ARCH}/3006 ${VERSION_CODENAME} main" | tee /etc/apt/sources.list.d/salt.list

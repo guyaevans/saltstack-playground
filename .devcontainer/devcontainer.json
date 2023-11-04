@@ -1,0 +1,72 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+    "name": "Salt-Debian-11",
+    "initializeCommand": "bash ./.devcontainer/scripts/initialize-command.sh",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "salt-master-debian",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    // "remoteUser": "vscode",
+    // "image": "mcr.microsoft.com/devcontainers/python:3-bullseye",
+    // "runArgs": [
+    //     "--name=saltstack-playground",
+    //     "--hostname=devcontainer.salt",
+    //     "--network=saltstack-playground"
+    // ],
+    // "containerEnv": {
+    //     "TZ": "Europe/Berlin"
+    // },
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils": {
+            "username": "vscode",
+            "userUid": 1000,
+            "userGid": 1000,
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZshConfig": true
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "dockerDashComposeVersion": "v1",
+            "installDockerBuildx": false
+        }
+    },
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Set container specific settings.json values on container create.
+            "settings": {
+                "telemetry.telemetryLevel": "off",
+                "files.eol": "\n",
+                "files.insertFinalNewline": true,
+                "files.autoSave": "off",
+                "editor.formatOnSave": true,
+                "git.autorefresh": true,
+                "git.autofetch": true,
+                "git.autofetchPeriod": 90,
+                "git.pullTags": false,
+                "git.confirmSync": false,
+                "redhat.telemetry.enabled": false,
+                "python.terminal.activateEnvironment": true
+            },
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+				"sleistner.vscode-fileutils",
+				"esbenp.prettier-vscode",
+				"warpnet.saltstack-extension-pack"
+			]
+        }
+    },
+    "onCreateCommand": "bash ./.devcontainer/scripts/on-create-command.sh",
+    "mounts": [
+        {
+            "source": "devcontainer-history",
+            "target": "/home/vscode/.history_export",
+            "type": "volume"
+        }
+    ],
+    "postCreateCommand": "bash ./.devcontainer/scripts/post-create-command.sh"
+}

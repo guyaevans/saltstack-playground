@@ -1,0 +1,9 @@
+FROM local/debian-base
+RUN apt update && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install -y --no-install-recommends \
+    lsb-release \
+    ifupdown \
+    salt-master \
+    bash-completion
+ENTRYPOINT [ "salt-master", "-l", "debug" ]

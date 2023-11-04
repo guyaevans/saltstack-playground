@@ -1,0 +1,15 @@
+### General
+alias src="source ~/.bashrc"
+
+### Connect into container
+alias alma='docker exec -it salt-minion-alma /bin/bash'
+alias debian='docker exec -it salt-minion-debian /bin/bash'
+alias suse='docker exec -it salt-minion-suse /bin/bash'
+alias ubuntu='docker exec -it salt-minion-ubuntu /bin/bash'
+
+### Get Container logs
+alias logs-master='docker logs -tf --tail 1000 salt-master-debian'
+alias logs-alma='docker logs -tf --tail 1000 salt-minion-alma'
+alias logs-debian='docker logs -tf --tail 1000 salt-minion-debian'
+alias logs-suse='docker logs -tf --tail 1000 salt-minion-suse'
+alias logs-ubuntu='docker logs -tf --tail 1000 salt-minion-ubuntu'

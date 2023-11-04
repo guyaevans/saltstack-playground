@@ -1,0 +1,6 @@
+FROM local/debian-base
+RUN apt update && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install -y --no-install-recommends \
+    salt-minion
+ENTRYPOINT [ "salt-minion", "-l", "debug" ]
