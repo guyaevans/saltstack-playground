@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-USER_NAME="vscode"
-USER_HOME="/home/${USER_NAME}"
+USER_NAME="root"
+USER_HOME="/${USER_NAME}"
 USER_HIST_PATH="${USER_HOME}/.history_export"
 case $SHELL in
 /bin/zsh)

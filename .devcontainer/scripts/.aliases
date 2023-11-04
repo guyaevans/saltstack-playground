@@ -1,5 +1,5 @@
 ### General
-alias src="source ~/.bashrc"
+alias src='. /workspace/.devcontainer/scripts/.aliases'
 
 ### Connect into container
 alias alma='docker exec -it salt-minion-alma /bin/bash'

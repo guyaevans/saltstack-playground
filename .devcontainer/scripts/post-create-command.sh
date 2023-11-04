@@ -7,9 +7,7 @@ function install_basics() {
   sudo apt update && sudo apt -y dist-upgrade
   sudo apt install -y --no-install-recommends \
     iputils-ping \
-    direnv \
     python3-pip \
-    python3-venv \
     python3-argcomplete
   sudo rm -rf /var/lib/apt/lists/*
   sudo apt -y clean
@@ -34,11 +32,13 @@ function generate_config_files() {
   if find "${HOME}" -type f -name '.functions' | grep -q .; then
     return 0
   fi
-  cat <<_EOF >>"${HOME}/.bashrc"
+  MY_SHELL=$(awk -F: '/^'$(whoami)'/ {print $NF}' /etc/passwd)
+  MY_SHELL=${MY_SHELL##*/}
+  cat <<_EOF >>"${HOME}/.${MY_SHELL}rc"
 ########################################
 ###### ADDED BY 'post-create-command.sh'
 ########################################
-files=(.aliases .functions .paths)
+files=(.functions .paths)
 for file in "\${files[@]}"; do
     if [[ ! -f "\${HOME}/\${file}" ]]; then
         touch "\${HOME}/\${file}"
@@ -46,26 +46,23 @@ for file in "\${files[@]}"; do
         source "\${HOME}/\${file}"
     fi
 done
-if [ -f /etc/bash_completion ]; then
-  . /etc/bash_completion
+if [[ -f /etc/bash_completion ]]; then
+  MY_SHELL=\$(awk -F: '/^'\$(whoami)'/ {print \$NF}' /etc/passwd)
+  MY_SHELL=\${MY_SHELL##*/}
+  if [[ \${MY_SHELL} == "bash" ]]; then
+    . /etc/bash_completion
+  fi
 fi
-eval "\$(direnv hook bash)"
+if ! grep -q 'logs-master'< <(alias); then
+  src
+fi
 ########################################
 _EOF
 
-  files=(.aliases .functions .paths)
+  files=(.functions .paths)
   for file in "${files[@]}"; do
     touch "${HOME}/${file}"
   done
-
-  cat <<_EOF >"${HOME}/.aliases"
-alias ls='ls \$LS_OPTIONS'
-alias ll='ls -l'
-alias la='ls -lAh'
-alias lt='ls -ltrh'
-alias l1='ls -1'
-alias src='. \${HOME}/.bashrc; . ${WORKDIR}/.aliases'
-_EOF
 
   EXPAND_PATHS=("${HOME}/.local/bin")
   for EXPAND_PATH in "${EXPAND_PATHS[@]}"; do
