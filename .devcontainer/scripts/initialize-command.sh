@@ -21,4 +21,4 @@ else
 fi
 ### Build salt-playground
 docker build -t local/debian-base -f ".devcontainer/Dockerfiles/Dockerfile-Debian-11-base" .
-docker compose -f ".devcontainer/docker-compose.yml" build
+# docker compose -f ".devcontainer/docker-compose.yml" build

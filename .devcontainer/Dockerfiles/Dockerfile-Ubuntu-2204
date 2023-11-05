@@ -1,0 +1,25 @@
+FROM ubuntu:22.04
+RUN sed -i 's,http://archive,http://de.archive,' /etc/apt/sources.list \
+    && apt update \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt install -y --no-install-recommends \
+    dialog \
+    apt-utils \
+    sudo \
+    curl \
+    iproute2 \
+    tzdata \
+    python3 \
+    openssh-server \
+    ca-certificates
+RUN . /etc/os-release \
+    && case $(uname -m) in amd64|x86_64) ARCH="amd64";; *) ARCH="arm64";; esac \
+    && curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/${ID}/${VERSION_ID}/${ARCH}/SALT-PROJECT-GPG-PUBKEY-2023.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=amd64] https://repo.saltproject.io/salt/py3/${ID}/${VERSION_ID}/${ARCH}/3006 ${VERSION_CODENAME} main" | tee /etc/apt/sources.list.d/salt.list \
+    && apt update \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt -y install salt-minion \
+    && rm -rf /var/lib/apt/lists/*
+# RUN mkdir -p /run/sshd && ssh-keygen -A
+# CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT [ "salt-minion", "-l", "debug" ]

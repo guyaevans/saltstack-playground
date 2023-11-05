@@ -1,0 +1,19 @@
+FROM almalinux:8
+RUN dnf update -y \
+    && dnf install -y \
+    dnf-utils \
+    sudo \
+    curl \
+    iproute \
+    python3 \
+    tzdata \
+    openssh-clients \
+    openssh-server \
+    ca-certificates \
+    && rpm --import https://repo.saltproject.io/salt/py3/redhat/8/$(uname -m)/SALT-PROJECT-GPG-PUBKEY-2023.pub \
+    && curl -fsSL https://repo.saltproject.io/salt/py3/redhat/8/$(uname -m)/3006.repo | tee /etc/yum.repos.d/salt.repo \
+    && dnf install -y salt-minion \
+    && dnf clean all
+# RUN mkdir -p /run/sshd && ssh-keygen -A
+# CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT [ "salt-minion", "-l", "debug" ]

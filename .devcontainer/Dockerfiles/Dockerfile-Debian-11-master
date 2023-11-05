@@ -6,4 +6,6 @@ RUN apt update && \
     ifupdown \
     salt-master \
     bash-completion
+# RUN mkdir -p /run/sshd && ssh-keygen -A
+# CMD ["/usr/sbin/sshd", "-D"]
 ENTRYPOINT [ "salt-master", "-l", "debug" ]

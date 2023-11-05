@@ -1,7 +1,5 @@
-ARG TZ='Europe/Berlin'
 ARG DEBIAN_MAJOR=11
 
 FROM debian:${DEBIAN_MAJOR}-slim
 COPY ./.devcontainer/scripts/add_salt_repo.sh /tmp/
 RUN /bin/bash /tmp/add_salt_repo.sh
-ENV TZ=${TZ}

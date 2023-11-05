@@ -2,36 +2,18 @@ version: "3.7"
 
 services:
   salt-master-debian:
-    # Note that the path of the Dockerfile and context is relative to the *primary*
-    # docker-compose.yml file (the first in the devcontainer.json "dockerComposeFile"
-    # array). The sample below assumes your primary file is in the root of your project.
     build:
       context: ./Dockerfiles
       dockerfile: Dockerfile-Debian-11-master
     container_name: salt-master-debian
     hostname: salt.master.debian
-    # user: vscode
-    environment:
-      - "TZ=Europe/Berlin"
     volumes:
       - ..:/workspace:rw
       - ./master.d:/etc/salt/master.d:ro
+      - ./salt:/srv/salt:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - salt-playground
-  # salt-master-debian:
-  #   build:
-  #     context: ./Dockerfiles
-  #     dockerfile: Dockerfile-Debian-11-master
-  #   image: salt-master-debian
-  #   container_name: salt-master-debian
-  #   hostname: salt.master.debian
-  #   environment:
-  #     - "TZ=Europe/Berlin"
-  #   volumes:
-  #     - ./master.d:/etc/salt/master.d:ro
-  #   networks:
-  #     - salt-playground
 
   salt-minion-debian:
     build:
@@ -40,55 +22,50 @@ services:
     image: salt-minion-debian
     container_name: salt-minion-debian
     hostname: debian.salt.minion
-    environment:
-      - "TZ=Europe/Berlin"
     volumes:
       - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
       - ./minion.d/id-debian.conf:/etc/salt/minion.d/id.conf:ro
     networks:
       - salt-playground
 
-  # salt-minion-ubuntu:
-  #   build:
-  #     context: ./Dockerfiles
-  #     dockerfile: Dockerfile-Ubuntu-22.04
-  #   image: salt-minion-ubuntu
-  #   container_name: salt-minion-ubuntu
-  #   hostname: ubuntu.salt.minion
-  #   environment:
-  #     - 'TZ=Europe/Berlin'
-  #   volumes:
-  #     - ./ssh-keys/minions/authorized_keys:/root/authorized_keys:ro
-  #   networks:
-  #     - salt-playground
+  salt-minion-ubuntu:
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-Ubuntu-2204
+    image: salt-minion-ubuntu
+    container_name: salt-minion-ubuntu
+    hostname: ubuntu.salt.minion
+    volumes:
+      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
+      - ./minion.d/id-ubuntu.conf:/etc/salt/minion.d/id.conf:ro
+    networks:
+      - salt-playground
 
-  # salt-minion-alma:
-  #   build:
-  #     context: ./Dockerfiles
-  #     dockerfile: Dockerfile-Alma-8
-  #   image: salt-minion-alma
-  #   container_name: salt-minion-alma
-  #   hostname: alma.salt.minion
-  #   environment:
-  #     - 'TZ=Europe/Berlin'
-  #   volumes:
-  #     - ./ssh-keys/minions/authorized_keys:/root/authorized_keys:ro
-  #   networks:
-  #     - salt-playground
+  salt-minion-alma:
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-Alma-8
+    image: salt-minion-alma
+    container_name: salt-minion-alma
+    hostname: alma.salt.minion
+    volumes:
+      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
+      - ./minion.d/id-alma.conf:/etc/salt/minion.d/id.conf:ro
+    networks:
+      - salt-playground
 
-  # salt-minion-suse:
-  #   build:
-  #     context: ./Dockerfiles
-  #     dockerfile: Dockerfile-OpenSUSE-Leap-15
-  #   image: salt-minion-suse
-  #   container_name: salt-minion-suse
-  #   hostname: suse.salt.minion
-  #   environment:
-  #     - 'TZ=Europe/Berlin'
-  #   volumes:
-  #     - ./ssh-keys/minions/authorized_keys:/root/authorized_keys:ro
-  #   networks:
-  #     - salt-playground
+  salt-minion-suse:
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-OpenSUSE-Leap-15
+    image: salt-minion-suse
+    container_name: salt-minion-suse
+    hostname: suse.salt.minion
+    volumes:
+      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
+      - ./minion.d/id-suse.conf:/etc/salt/minion.d/id.conf:ro
+    networks:
+      - salt-playground
 
 networks:
   salt-playground:
