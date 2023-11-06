@@ -10,7 +10,7 @@ services:
     volumes:
       - ..:/workspace:rw
       - ./master.d:/etc/salt/master.d:ro
-      - ./salt:/srv/salt:ro
+      - ../salt:/srv/salt:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - salt-playground
