@@ -25,9 +25,6 @@ function setup_python_argcomplete() {
     sudo activate-global-python-argcomplete3 --dest /etc/bash_completion.d/
   fi
 }
-function install_salt_completion() {
-  curl -sL -o "/etc/bash_completion.d/salt.bash" --url "https://raw.githubusercontent.com/saltstack/salt/develop/pkg/salt.bash"
-}
 function generate_config_files() {
   if find "${HOME}" -type f -name '.functions' | grep -q .; then
     return 0
@@ -76,22 +73,22 @@ _EOF
   done
 }
 ### PRE COMMIT
-command_exists() {
+function command_exists() {
   # Function to check if a command exists
   command -v "$1" >/dev/null 2>&1
 }
-install_pre_commit_linux() {
+function install_pre_commit_linux() {
   # Function to install pre-commit on Linux
   echo "Installing pre-commit on Linux..."
   $PIP_CMD install pre-commit
 }
 
-install_pre_commit_macos() {
+function install_pre_commit_macos() {
   # Function to install pre-commit on macOS
   echo "Installing pre-commit on macOS..."
   $PIP_CMD install pre-commit
 }
-check_pip_command() {
+function check_pip_command() {
   # Check if pip is installed
   if command_exists pip; then
     PIP_CMD="pip"
@@ -102,7 +99,12 @@ check_pip_command() {
     exit 1
   fi
 }
-install_pre_commit() {
+function install_salt-lint() {
+  # Function to install salt-lint
+  echo "Installing salt-lint..."
+  $PIP_CMD install salt-lint
+}
+function install_pre_commit() {
   # Check if pre-commit is already installed
   if command_exists pre-commit; then
     echo "pre-commit is already installed."
@@ -128,17 +130,15 @@ install_pre_commit() {
     esac
   fi
 }
-activate_pre_commit() {
+function activate_pre_commit() {
   pre-commit install
 }
 function main() {
   install_basics
   setup_python_argcomplete
-  install_salt_completion
   generate_config_files
-  # build_docker_images
-  # start_docker_images
-  # check_pip_command
+  check_pip_command
+  install_salt-lint
   # install_pre_commit
   # activate_pre_commit
 }
