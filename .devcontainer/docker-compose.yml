@@ -9,35 +9,9 @@ services:
     hostname: salt.master.debian
     volumes:
       - ..:/workspace:rw
-      - ./master.d:/etc/salt/master.d:ro
+      - ../master.d:/etc/salt/master.d:ro
       - ../salt:/srv/salt:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - salt-playground
-
-  salt-minion-debian:
-    build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-Debian-11-minion
-    image: salt-minion-debian
-    container_name: salt-minion-debian
-    hostname: debian.salt.minion
-    volumes:
-      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
-      - ./minion.d/id-debian.conf:/etc/salt/minion.d/id.conf:ro
-    networks:
-      - salt-playground
-
-  salt-minion-ubuntu:
-    build:
-      context: ./Dockerfiles
-      dockerfile: Dockerfile-Ubuntu-2204
-    image: salt-minion-ubuntu
-    container_name: salt-minion-ubuntu
-    hostname: ubuntu.salt.minion
-    volumes:
-      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
-      - ./minion.d/id-ubuntu.conf:/etc/salt/minion.d/id.conf:ro
     networks:
       - salt-playground
 
@@ -49,8 +23,19 @@ services:
     container_name: salt-minion-alma
     hostname: alma.salt.minion
     volumes:
-      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
-      - ./minion.d/id-alma.conf:/etc/salt/minion.d/id.conf:ro
+      - ../minion.d/alma/:/etc/salt/minion.d/:ro
+    networks:
+      - salt-playground
+
+  salt-minion-debian:
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-Debian-11-minion
+    image: salt-minion-debian
+    container_name: salt-minion-debian
+    hostname: debian.salt.minion
+    volumes:
+      - ../minion.d/debian/:/etc/salt/minion.d/:ro
     networks:
       - salt-playground
 
@@ -62,8 +47,19 @@ services:
     container_name: salt-minion-suse
     hostname: suse.salt.minion
     volumes:
-      - ./minion.d/master.conf:/etc/salt/minion.d/master.conf:ro
-      - ./minion.d/id-suse.conf:/etc/salt/minion.d/id.conf:ro
+      - ../minion.d/suse/:/etc/salt/minion.d/:ro
+    networks:
+      - salt-playground
+
+  salt-minion-ubuntu:
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-Ubuntu-2204
+    image: salt-minion-ubuntu
+    container_name: salt-minion-ubuntu
+    hostname: ubuntu.salt.minion
+    volumes:
+      - ../minion.d/ubuntu/:/etc/salt/minion.d/:ro
     networks:
       - salt-playground
 
