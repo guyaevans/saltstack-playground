@@ -53,9 +53,13 @@ if [[ -f /etc/bash_completion ]]; then
     . /etc/bash_completion
   fi
 fi
-# if ! grep -q 'logs-master'< <(alias); then
-#   src
-# fi
+function source_saltstack_aliases() {
+  if ! grep -q 'logs-master'< <(alias); then
+    . /workspace/.devcontainer/scripts/.aliases
+    return 0
+  fi
+}
+source_saltstack_aliases
 ########################################
 _EOF
 

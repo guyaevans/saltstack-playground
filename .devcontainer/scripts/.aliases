@@ -1,15 +1,13 @@
 ### General
 alias src='. /workspace/.devcontainer/scripts/.aliases'
 
-### Connect into container
-alias alma='docker exec -it salt-minion-alma /bin/bash'
-alias debian='docker exec -it salt-minion-debian /bin/bash'
-alias suse='docker exec -it salt-minion-suse /bin/bash'
-alias ubuntu='docker exec -it salt-minion-ubuntu /bin/bash'
-
-### Get Container logs
+DISTROS=(alma debian suse ubuntu)
+### Connect into minion container
+for DISTRO in "${DISTROS[@]}"; do
+  alias "${DISTRO}"="docker exec -it salt-minion-${DISTRO} /bin/bash"
+done
+### Get container logs
 alias logs-master='docker logs -tf --tail 1000 salt-master-debian'
-alias logs-alma='docker logs -tf --tail 1000 salt-minion-alma'
-alias logs-debian='docker logs -tf --tail 1000 salt-minion-debian'
-alias logs-suse='docker logs -tf --tail 1000 salt-minion-suse'
-alias logs-ubuntu='docker logs -tf --tail 1000 salt-minion-ubuntu'
+for DISTRO in "${DISTROS[@]}"; do
+  alias "logs-${DISTRO}"="docker logs -tf --tail 1000 salt-minion-${DISTRO}"
+done
