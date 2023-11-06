@@ -26,3 +26,57 @@ Open the repository in vscode. Vscode should give you a hint, that it has detect
 > **This step will be executed automatically by starting the DevContainer**
 
 Starting the DevContainer will execute the script [post-create-command.sh](./.devcontainer/scripts/post-create-command.sh). Feel free to modify it to fit to your favorite tools and configs.
+
+### Check minion registration
+
+Each minion should try to register to the **salt-master**:
+
+```txt
+root ➜ /workspace (main) $ salt-key
+Accepted Keys:
+Denied Keys:
+Unaccepted Keys:
+alma.salt.minion
+debian.salt.minion
+suse.salt.minion
+ubuntu.salt.minion
+Rejected Keys:
+```
+
+Accept them individually via
+
+```sh
+salt-key -a <MINION_NAME>
+```
+
+or accept them all at once:
+
+```
+root ➜ /workspace (main) $ salt-key -y -A
+The following keys are going to be accepted:
+Unaccepted Keys:
+alma.salt.minion
+debian.salt.minion
+suse.salt.minion
+ubuntu.salt.minion
+Key for minion alma.salt.minion accepted.
+Key for minion debian.salt.minion accepted.
+Key for minion suse.salt.minion accepted.
+Key for minion ubuntu.salt.minion accepted.
+```
+
+### Test minion connection
+
+Test if accepted minions are responsing as expected:
+
+```
+root ➜ /workspace (main) $ salt '*' test.version
+debian.salt.minion:
+    3006.4
+alma.salt.minion:
+    3006.4
+ubuntu.salt.minion:
+    3006.4
+suse.salt.minion:
+    3006.0
+```
