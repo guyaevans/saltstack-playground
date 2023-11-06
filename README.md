@@ -29,7 +29,7 @@ Starting the DevContainer will execute the script [post-create-command.sh](./.de
 
 ### Check minion registration
 
-Each minion should try to register to the **salt-master**:
+Every minion should try to register with the **salt-master**:
 
 ```txt
 root ➜ /workspace (main) $ salt-key
@@ -67,7 +67,7 @@ Key for minion ubuntu.salt.minion accepted.
 
 ### Test minion connection
 
-Test if accepted minions are responsing as expected:
+Test whether the accepted minions respond as expected:
 
 ```
 root ➜ /workspace (main) $ salt '*' test.version
