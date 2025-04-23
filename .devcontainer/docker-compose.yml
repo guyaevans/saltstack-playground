@@ -9,7 +9,7 @@ services:
     hostname: salt.master.debian
     volumes:
       - ..:/workspace:rw
-      - ../master.d:/etc/salt/master.d:ro
+      - ./master.d:/etc/salt/master.d:ro
       - ../salt:/srv/salt:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
@@ -23,7 +23,7 @@ services:
     container_name: salt-minion-debian
     hostname: debian.salt.minion
     volumes:
-      - ../minion.d/debian/:/etc/salt/minion.d/:ro
+      - ./minion.d/debian/:/etc/salt/minion.d/:ro
     networks:
       - salt-playground
 
