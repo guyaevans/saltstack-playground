@@ -1,4 +1,4 @@
-ARG DEBIAN_MAJOR=11
+ARG DEBIAN_MAJOR=12
 
 FROM debian:${DEBIAN_MAJOR}-slim
 COPY ./.devcontainer/scripts/add_salt_repo.sh /tmp/

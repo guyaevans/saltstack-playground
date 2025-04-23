@@ -28,7 +28,5 @@ esac
 
 . /etc/os-release
 mkdir -p /etc/apt/keyrings
-curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/${ID}/${VERSION_ID}/${ARCH}/SALT-PROJECT-GPG-PUBKEY-2023.gpg
-cat <<_EOF >/etc/apt/sources.list.d/salt.list
-deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=${ARCH}] https://repo.saltproject.io/salt/py3/${ID}/${VERSION_ID}/${ARCH}/3006 ${VERSION_CODENAME} main
-_EOF
+curl -fsSL https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public | sudo tee /etc/apt/keyrings/salt-archive-keyring.pgp
+curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources | sudo tee /etc/apt/sources.list.d/salt.sources

@@ -12,4 +12,4 @@ else
 fi
 ### Build debian base image
 echo "INITIALIZE COMMAND :: Building Debian base image..."
-docker build -t local/debian-base -f ".devcontainer/Dockerfiles/Dockerfile-Debian-11-base" .
+docker build -t local/debian-base -f ".devcontainer/Dockerfiles/Dockerfile-Debian-12-base" .

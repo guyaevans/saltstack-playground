@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-    "name": "Salt-Debian-11",
+    "name": "Salt-Debian-12",
     "initializeCommand": "bash ./.devcontainer/scripts/initialize-command.sh",
     "dockerComposeFile": "docker-compose.yml",
     "service": "salt-master-debian",
@@ -18,7 +18,7 @@
             "installOhMyZshConfig": true
         },
         "ghcr.io/devcontainers/features/docker-in-docker:2": {
-            "dockerDashComposeVersion": "v1",
+            "dockerDashComposeVersion": "v2",
             "installDockerBuildx": false
         }
     },

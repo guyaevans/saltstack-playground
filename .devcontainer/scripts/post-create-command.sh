@@ -80,13 +80,13 @@ function command_exists() {
 function install_pre_commit_linux() {
   # Function to install pre-commit on Linux
   echo "Installing pre-commit on Linux..."
-  $PIP_CMD install pre-commit
+  $PIP_CMD install pre-commit --break-system-packages
 }
 
 function install_pre_commit_macos() {
   # Function to install pre-commit on macOS
   echo "Installing pre-commit on macOS..."
-  $PIP_CMD install pre-commit
+  $PIP_CMD install pre-commit --break-system-packages
 }
 function check_pip_command() {
   # Check if pip is installed
@@ -102,7 +102,7 @@ function check_pip_command() {
 function install_salt-lint() {
   # Function to install salt-lint
   echo "Installing salt-lint..."
-  $PIP_CMD install salt-lint
+  $PIP_CMD install salt-lint --break-system-packages
 }
 function install_pre_commit() {
   # Check if pre-commit is already installed
