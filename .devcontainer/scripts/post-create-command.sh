@@ -139,6 +139,7 @@ function main() {
   generate_config_files
   check_pip_command
   install_salt-lint
+  salt-key -A -y
   # install_pre_commit
   # activate_pre_commit
 }
