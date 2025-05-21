@@ -43,7 +43,7 @@ services:
     build:
       context: ./Dockerfiles
       dockerfile: Dockerfile-Rocky-8
-    image: salt-minion-Rocky
+    image: salt-minion-rocky
     container_name: salt-minion-rocky
     hostname: rocky.salt.minion
     volumes:
