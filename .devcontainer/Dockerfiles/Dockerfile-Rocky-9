@@ -1,0 +1,20 @@
+FROM rockylinux:9
+RUN dnf update -y \
+    && dnf install -y \
+    dnf-utils \
+    sudo \
+    # curl \
+    iproute \
+    python3 \
+    tzdata \
+    openssh-clients \
+    openssh-server \
+    ca-certificates \
+    && case $(uname -m) in amd64|x86_64) ARCH="amd64";; *) ARCH="arm64";; esac \
+    && rpm --import https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public \
+    && curl -fsSL https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.repo | sudo tee /etc/yum.repos.d/salt.repo \
+    && dnf install -y salt-minion \
+    && dnf clean all
+# RUN mkdir -p /run/sshd && ssh-keygen -A
+# CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT [ "salt-minion", "-l", "debug" ]

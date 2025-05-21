@@ -39,5 +39,18 @@ services:
   #   networks:
   #     - salt-playground
 
+  salt-minion-rocky:
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-Rocky-8
+    image: salt-minion-Rocky
+    container_name: salt-minion-rocky
+    hostname: rocky.salt.minion
+    volumes:
+      - ../minion.d/rocky/:/etc/salt/minion.d/:ro
+    networks:
+      - salt-playground
+
+
 networks:
   salt-playground:
